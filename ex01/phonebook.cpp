@@ -6,83 +6,52 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:11:15 by mjong             #+#    #+#             */
-/*   Updated: 2025/01/22 17:24:15 by mjong            ###   ########.fr       */
+/*   Updated: 2025/01/23 18:23:56 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phonebook.hpp"
 
-void	searchContact()
-{
-	std::cout << "\n| SEARCH A CONTACT |\n\nEnter a contact name to search or:\n| EXIT TO HOMESCREEN |" << std::endl;
-	while (1)
-	{
-		std::string command;	
-		std::getline(std::cin, command);
-		if (command == "EXIT" || command == "exit")
-			break ;
-		else if (!command.empty())
-		{
-			std::cout << "Searched contact: " << command << std::endl;
-		}
-		else if (command == "")
-			continue ;
-	}
-}
+PhoneBook::PhoneBook() : contactCount(0) {}
 
-void	addContact()
+void	PhoneBook::addContact(std::string &firstName)
 {
-	std::cout << "\n| ADD A CONTACT |\n\nEnter a contact name to add or:\n| EXIT TO HOMESCREEN |" << std::endl;
-	while (1)
+	if (contactCount >= 8)
 	{
-		std::string command;	
-		std::getline(std::cin, command);
-		if (command == "EXIT" || command == "exit")
-			break ;
-		else if (!command.empty())
-		{
-			std::cout << "Added contact: " << command << std::endl;
-		}
-		else if (command == "")
-			continue ;
-	}
-}
-
-int main(int argc, char **argv)
-{
-	(void)argv;
-	
-	if (argc == 1)
-	{
-		bool showHomeScreen = true;
+		std::cout << "The phonebook is full! The oldest contact will be replaced.\nProceed?\n| YES | NO |" << std::endl;
 		while (1)
 		{
-			if (showHomeScreen)
+			std::string proceed;	
+			std::getline(std::cin, proceed);
+			if (proceed == "YES" || proceed == "yes")
 			{
-				std::cout << "\n| HOMESCREEN |\n\nWhat would you like to do:\n| ADD | SEARCH | EXIT |" << std::endl;
-				showHomeScreen = false;
+				contacts[contactCount % 8].setContact(firstName, (contactCount % 8) + 1);
+				std::cout << "\nAdded contact: " << contacts[contactCount % 8].getFirstName()
+						  << " " << contacts[contactCount % 8].getLastName() << std::endl;
+				std::cout << ADD_CONTACT_PROMPT << std::endl;
+				return ;
 			}
-			std::string command;	
-			std::getline(std::cin, command);
-			if (command == "ADD" || command == "add")
+			else if (proceed == "NO" || proceed == "no")
 			{
-				addContact();
-				showHomeScreen = true;
+				std::cout << EXITING_PROMPT << std::endl;
+				std::cout << ADD_CONTACT_PROMPT << std::endl;
+				return ;
 			}
-			else if (command == "SEARCH" || command == "search")
-			{
-				searchContact();
-				showHomeScreen = true;
-			}
-			else if (command == "EXIT" || command == "exit")
-				break ;
-			else if (command == "")
-				continue ;
 			else
-				std::cout << "Wrong command, enter:\n| ADD | SEARCH | EXIT |" << std::endl;
+				std::cout << "Wrong command, enter:\n| YES | NO |" << std::endl;
 		}
 	}
 	else
-		std::cout << "Usage: ./phonebook" << std::endl;
-	return (0);
+	{
+		contacts[contactCount].setContact(firstName, contactCount + 1);
+		std::cout << "\nAdded contact: " << contacts[contactCount].getFirstName()
+				  << " " << contacts[contactCount].getLastName() << std::endl;
+		contactCount++;
+		std::cout << ADD_CONTACT_PROMPT << std::endl;
+	}
+}
+
+void	PhoneBook::searchContact(std::string &contactName)
+{
+	std::cout << "searching" << contactName << std::endl;
 }

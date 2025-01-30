@@ -6,13 +6,25 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:11:15 by mjong             #+#    #+#             */
-/*   Updated: 2025/01/23 18:23:56 by mjong            ###   ########.fr       */
+/*   Updated: 2025/01/30 14:55:20 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phonebook.hpp"
 
-PhoneBook::PhoneBook() : contactCount(0) {}
+PhoneBook::PhoneBook() : contactCount(0)
+{
+}
+
+Contact PhoneBook::getContact(int index)
+{
+	if (index >= 0 && index < contactCount)
+	{
+		return (contacts[index]);
+	}
+	else
+		return (Contact());
+}
 
 void	PhoneBook::addContact(std::string &firstName)
 {
@@ -49,6 +61,11 @@ void	PhoneBook::addContact(std::string &firstName)
 		contactCount++;
 		std::cout << ADD_CONTACT_PROMPT << std::endl;
 	}
+}
+
+int	PhoneBook::getContactCount(void)
+{
+	return (contactCount);
 }
 
 void	PhoneBook::searchContact(std::string &contactName)

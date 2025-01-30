@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:26:12 by mjong             #+#    #+#             */
-/*   Updated: 2025/01/30 16:22:49 by mjong            ###   ########.fr       */
+/*   Updated: 2025/01/30 16:45:47 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,13 @@ void	Contact::setContact(std::string firstName, int index)
 	setNickName(nickName);
 	std::cout << "\nAdded nickname: " << nickName << std::endl;
 
-	// std::cin.clear();
-	// std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
 	std::string phoneNumber;
 	std::cout << "\033[33m\n| SET PHONE NUMBER |\n\033[0m" << std::endl;
-	do
+	bool validPhoneNumber = false;
+	do {
 		std::getline(std::cin, phoneNumber);
-	while (phoneNumber.empty());
-	setPhoneNumber(phoneNumber);
+		validPhoneNumber = (setPhoneNumber(phoneNumber) == 0);
+	} while (phoneNumber.empty() || !validPhoneNumber);
 	std::cout << "\nAdded phone number: " << phoneNumber << std::endl;
 
 	std::string darkestSecret;

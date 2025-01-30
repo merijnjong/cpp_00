@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:11:15 by mjong             #+#    #+#             */
-/*   Updated: 2025/01/30 14:55:20 by mjong            ###   ########.fr       */
+/*   Updated: 2025/01/30 18:07:43 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	PhoneBook::addContact(std::string &firstName)
 {
 	if (contactCount >= 8)
 	{
-		std::cout << "The phonebook is full! The oldest contact will be replaced.\nProceed?\n| YES | NO |" << std::endl;
+		std::cout << "\033[33m\nThe phonebook is full! The oldest contact will be replaced.\nProceed?\n| YES | NO |\n\033[0m" << std::endl;
 		while (1)
 		{
 			std::string proceed;	
@@ -50,7 +50,7 @@ void	PhoneBook::addContact(std::string &firstName)
 				return ;
 			}
 			else
-				std::cout << "Wrong command, enter:\n| YES | NO |" << std::endl;
+				std::cout << "\033[31m\nWrong command, enter:\033[0m\n\033[33m| YES | NO |\033[0m" << std::endl;
 		}
 	}
 	else
@@ -68,7 +68,47 @@ int	PhoneBook::getContactCount(void)
 	return (contactCount);
 }
 
-void	PhoneBook::searchContact(std::string &contactName)
+void	displaySingleContact(PhoneBook &phonebook, int index)
 {
-	std::cout << "searching" << contactName << std::endl;
+	Contact		contacts = phonebook.getContact(index - 1);
+	std::string	firstName = contacts.getFirstName();
+	std::string	lastName = contacts.getLastName();
+	std::string	nickName = contacts.getNickName();
+	std::string	phoneNumber = contacts.getPhoneNumber();
+
+	std::cout << "________________________________________________________"  << std::endl;
+	std::cout << "|  Index   |First Name|Last Name | Nickname |Phone Nmbr|"  << std::endl;
+	std::cout << "|----------|----------|----------|----------|----------|"  << std::endl;
+	std::cout << "|" << std::setw(10) << std::right << index << "|"
+			  << std::setw(10) << std::right << longerThanTen(firstName) << "|"
+			  << std::setw(10) << std::right << longerThanTen(lastName) << "|"
+			  << std::setw(10) << std::right << longerThanTen(nickName) << "|"
+			  << std::setw(10) << std::right << longerThanTen(phoneNumber) << "|" << std::endl;
+	std::cout << " ⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻⎻ " << std::endl;
+}
+
+void	PhoneBook::searchContact(PhoneBook &phonebook, std::string &contactIndex)
+{
+	bool isValid = true;
+
+	for (char c : contactIndex)
+	{
+		if (!isdigit(c))
+		{
+			isValid = false;
+			break ;
+		}
+	}
+	if (isValid)
+	{
+		int	index = stoi(contactIndex);
+		if (index >= 1 && index <= 8)
+		{
+			displaySingleContact(phonebook, index);
+		}
+		else
+			std::cout << "\033[31m\nInvalid input! You should enter a number between 1 and 8\n\033[0m" << std::endl;
+	}
+	else
+		std::cout << "\033[31m\nInvalid input! You should enter a number between 1 and 8\n\033[0m" << std::endl;
 }

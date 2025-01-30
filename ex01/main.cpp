@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 13:38:44 by mjong             #+#    #+#             */
-/*   Updated: 2025/01/30 16:19:33 by mjong            ###   ########.fr       */
+/*   Updated: 2025/01/30 17:53:52 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	displayPhoneBook(PhoneBook &phonebook)
 	std::string	index;
 	std::string	firstName;
 	std::string	lastName;
-	// std::string darkestSecret;
 	std::string	nickName;
 
 	std::cout << "_____________________________________________"  << std::endl;
@@ -71,9 +70,8 @@ void	displayPhoneBook(PhoneBook &phonebook)
 
 void	searchWindow(PhoneBook &phonebook)
 {
-	int		contactCount;
+	int		contactCount = phonebook.getContactCount();
 
-	contactCount = phonebook.getContactCount();
 	if (contactCount == 0)
 	{
 		std::cout << "\033[31m\nNo contact added yet, please add a contact\033[0m" << std::endl;
@@ -92,7 +90,7 @@ void	searchWindow(PhoneBook &phonebook)
 		}
 		else if (!command.empty())
 		{
-			phonebook.searchContact(command);
+			phonebook.searchContact(phonebook, command);
 		}
 		else if (command == "")
 			continue ;

@@ -6,7 +6,7 @@
 /*   By: mjong <mjong@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 15:11:50 by mjong             #+#    #+#             */
-/*   Updated: 2025/01/30 15:06:11 by mjong            ###   ########.fr       */
+/*   Updated: 2025/01/30 17:53:41 by mjong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHONEBOOK_HPP
 
 # include <cctype>
+# include <string>
 # include <iomanip>
 # include <iostream>
 # include <limits>
@@ -28,14 +29,16 @@ class PhoneBook {
 	public:
 		PhoneBook();
 		
-		void	addContact(std::string &firstName);
-		int		getContactCount(void);
-		Contact	getContact(int index);
-		void	searchContact(std::string &firstName);
+		void		addContact(std::string &firstName);
+		int			getContactCount(void);
+		Contact		getContact(int index);
+		void		searchContact(PhoneBook &phonebook, std::string &index);
 
 	private:
 		Contact	contacts[8];
         int		contactCount;
 };
+
+std::string	longerThanTen(std::string &str);
 
 #endif

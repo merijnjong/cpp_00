@@ -1,9 +1,10 @@
 NAME		:= phonebook
 CXX			:= g++
-CXXFLAGS	:= -fsanitize=address -g -Wextra -Wall -Werror
+CXXFLAGS	:= -g -Wextra -Wall -Werror -MMD
 
 SRCS		:= main.cpp contact.cpp phonebook.cpp
 OBJS		:= $(SRCS:.cpp=.o)
+DEPS		:= $(OBJS:%.o=%.d)
 
 all: $(NAME)
 
@@ -13,8 +14,10 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS) && printf "Linking: $(NAME)\n"
 
+-include $(DEPS)
+
 clean:
-	@rm -rf $(OBJS)
+	@rm -rf $(OBJS) $(DEPS)
 
 fclean: clean
 	@rm -rf $(NAME)
